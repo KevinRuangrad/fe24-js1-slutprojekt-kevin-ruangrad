@@ -45,10 +45,15 @@ searchBtn.addEventListener("click", async () => {
       personCard.appendChild(personElement);
     } else {
       const tvResponse = await fetch(tvUrl);
-      const tvData = await tvResponse.json();
-      const series = tvData.results;
+      const movieResponse = await fetch(movieUrl);
 
-      if (series.length > 0) {
+      const tvData = await tvResponse.json();
+      const movieData = await movieResponse.json();
+
+      const series = tvData.results;
+      const movies = movieData.results;
+
+      if (series.length > 0 || movies.length > 0) {
         series.forEach((tv) => {
           const tvElement = document.createElement("div");
           tvElement.classList.add("movie-card");
@@ -57,29 +62,25 @@ searchBtn.addEventListener("click", async () => {
             <h2>${tv.name}</h2>
             <p>Rating: ${tv.vote_average}</p>
             <p>${tv.first_air_date}</p>
+            <p>${tv.overview}</p>
           `;
           moviesCard.appendChild(tvElement);
         });
-      } else {
-        const movieResponse = await fetch(movieUrl);
-        const movieData = await movieResponse.json();
-        const movies = movieData.results;
 
-        if (movies.length > 0) {
-          movies.forEach((movie) => {
-            const movieElement = document.createElement("div");
-            movieElement.classList.add("movie-card");
-            movieElement.innerHTML = `
-              <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
-              <h2>${movie.title}</h2>
-              <p>Rating: ${movie.vote_average}</p>
-              <p>${movie.release_date}</p>
-            `;
-            moviesCard.appendChild(movieElement);
-          });
-        } else {
-          alert("No results found for your search.");
-        }
+        movies.forEach((movie) => {
+          const movieElement = document.createElement("div");
+          movieElement.classList.add("movie-card");
+          movieElement.innerHTML = `
+            <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
+            <h2>${movie.title}</h2>
+            <p>Rating: ${movie.vote_average}</p>
+            <p>${movie.release_date}</p>
+            <p>${movie.overview}</p>
+          `;
+          moviesCard.appendChild(movieElement);
+        });
+      } else {
+        alert("No results found for your search.");
       }
     }
   } catch (error) {
