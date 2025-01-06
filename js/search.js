@@ -38,12 +38,12 @@ searchBtn.addEventListener("click", async () => {
         matchedPerson.known_for.slice(0, 4).map((work) => `
             <li>${(work.title ||
           work.name)} (${work.media_type.toUpperCase()})</li>
-          `).join("")
+          `).join("") // join() hjälper oss att slippa kommatecken mellan varje listelement, använde mig av AI för att lösa detta
       }
         </ul>
       `;
       personCard.appendChild(personElement);
-    } else {
+    } else { // Hade hjälp med AI där jag skapade en else-sats för att visa upp filmer och serier om personen inte hittades, problemet var att serie url:en overitade filmer så filmer displayades inte, beroende på vilken url som var först
       const tvResponse = await fetch(tvUrl);
       const movieResponse = await fetch(movieUrl);
 

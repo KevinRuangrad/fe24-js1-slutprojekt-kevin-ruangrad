@@ -82,6 +82,12 @@ nav input {
   object-fit: cover;
 }
 
+.movieCard p {
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-top: 0.5em;
+}
+
 .person-card {
   display: flex;
   flex-direction: column;
@@ -115,5 +121,3 @@ nav input {
   flex-direction: row;
   gap: 2em;
 }
-
-
