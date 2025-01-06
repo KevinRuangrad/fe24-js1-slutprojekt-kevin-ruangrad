@@ -21,29 +21,40 @@ searchBtn.addEventListener("click", async () => {
     const personData = await personResponse.json();
     const persons = personData.results;
 
-    const matchedPerson = persons.find((person) =>
-      person.name.toLowerCase() === query
+    const matchedPersons = persons.filter((person) =>
+      person.name.toLowerCase().includes(query)
     );
 
-    if (matchedPerson) {
-      const personElement = document.createElement("div");
-      personElement.classList.add("person-card");
-      personElement.innerHTML = `
-        <img src="https://image.tmdb.org/t/p/w500${matchedPerson.profile_path}" alt="${matchedPerson.name}">
-        <h2>${matchedPerson.name.toUpperCase()}</h2>
-        <p>${matchedPerson.known_for_department.toUpperCase()}</p>
-        <h3>Known For:</h3>
-        <ul>
-          ${
-        matchedPerson.known_for.slice(0, 4).map((work) => `
-            <li>${(work.title ||
-          work.name)} (${work.media_type.toUpperCase()})</li>
-          `).join("") // join() hjälper oss att slippa kommatecken mellan varje listelement, använde mig av AI för att lösa detta
-      }
-        </ul>
-      `;
-      personCard.appendChild(personElement);
-    } else { // Hade hjälp med AI där jag skapade en else-sats för att visa upp filmer och serier om personen inte hittades, problemet var att serie url:en overitade filmer så filmer displayades inte, beroende på vilken url som var först
+    if (matchedPersons.length > 0) {
+      matchedPersons.forEach((matchedPerson) => {
+        if (!matchedPerson.profile_path) {
+          return; // Skip this person if no profile image is available
+        }
+
+        const personElement = document.createElement("div");
+        personElement.classList.add("person-card");
+
+        const imgElement = document.createElement("img");
+        imgElement.src = `https://image.tmdb.org/t/p/w500${matchedPerson.profile_path}`;
+        imgElement.alt = matchedPerson.name;
+        personElement.appendChild(imgElement);
+
+        personElement.innerHTML += `
+          <h2>${matchedPerson.name.toUpperCase()}</h2>
+          <p>${matchedPerson.known_for_department.toUpperCase()}</p>
+          <h3>Known For:</h3>
+          <ul>
+            ${
+          matchedPerson.known_for.slice(0, 4).map((work) => `
+              <li>${(work.title ||
+            work.name)} (${work.media_type.toUpperCase()})</li>
+            `).join("") // join() helps us avoid commas between each list item
+        }
+          </ul>
+        `;
+        personCard.appendChild(personElement);
+      });
+    } else { 
       const tvResponse = await fetch(tvUrl);
       const movieResponse = await fetch(movieUrl);
 
