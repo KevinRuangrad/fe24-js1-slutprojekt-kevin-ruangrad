@@ -1,3 +1,2 @@
-This project is a simple web application that allows users to search for popular
-and top-rated movies, as well as search for actors and their known works using
-The Movie Database (TMDB) API.
+This project is a simple web application that lets users search for movies and actors. It also displays the top 10 most popular movies and the top 10 highest-rated movies of all time, using The Movie Database (TMDb) API.
+The Movie Database (TMDB) API: https://developer.themoviedb.org/docs/getting-started
