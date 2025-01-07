@@ -12,7 +12,6 @@ searchBtn.addEventListener("click", async () => {
     `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`;
   const personUrl =
     `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&query=${query}`;
-
   personCard.innerHTML = "";
   moviesCard.innerHTML = "";
 
@@ -28,7 +27,7 @@ searchBtn.addEventListener("click", async () => {
     if (matchedPersons.length > 0) {
       matchedPersons.forEach((matchedPerson) => {
         if (!matchedPerson.profile_path) {
-          return; // Skippar personer utan bild
+          return; // Skippa denna personen om det inte finns någon bild
         }
 
         const personElement = document.createElement("div");
@@ -48,41 +47,30 @@ searchBtn.addEventListener("click", async () => {
           matchedPerson.known_for.slice(0, 4).map((work) => `
               <li>${(work.title ||
             work.name)} (${work.media_type.toUpperCase()})</li>
-            `).join("") // join() hjälper oss att slippa kommatecken, eftersom vi använder map(). Fick hjälp av AI här
+            `).join("") // join() hjälper oss att slå ihop alla element i arrayen till en sträng. Fick hjälp av AI för att lösa detta.
         }
           </ul>
         `;
         personCard.appendChild(personElement);
       });
     } else { 
-      const tvResponse = await fetch(tvUrl);
       const movieResponse = await fetch(movieUrl);
-
-      const tvData = await tvResponse.json();
       const movieData = await movieResponse.json();
-
-      const series = tvData.results;
       const movies = movieData.results;
 
-      if (series.length > 0 || movies.length > 0) {
-        series.forEach((tv) => {
-          const tvElement = document.createElement("div");
-          tvElement.classList.add("movie-card");
-          tvElement.innerHTML = `
-            <img src="https://image.tmdb.org/t/p/w500${tv.poster_path}" alt="${tv.name}">
-            <h2>${tv.name}</h2>
-            <p>Rating: ${tv.vote_average}</p>
-            <p>${tv.first_air_date}</p>
-            <p>${tv.overview}</p>
-          `;
-          moviesCard.appendChild(tvElement);
-        });
-
+      if (movies.length > 0) {
         movies.forEach((movie) => {
           const movieElement = document.createElement("div");
           movieElement.classList.add("movie-card");
-          movieElement.innerHTML = `
-            <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
+
+          if (movie.poster_path) {
+            const imgElement = document.createElement("img");
+            imgElement.src = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+            imgElement.alt = movie.title;
+            movieElement.appendChild(imgElement);
+          }
+
+          movieElement.innerHTML += `
             <h2>${movie.title}</h2>
             <p>Rating: ${movie.vote_average}</p>
             <p>${movie.release_date}</p>

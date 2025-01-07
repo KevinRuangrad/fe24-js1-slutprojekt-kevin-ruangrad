@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     movieElement.innerHTML = `
       <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
       <h2>${movie.title}</h2>
-      <p>Rating: ${movie.vote_average}</p>
+      <p>Rating: ${Math.floor(movie.vote_average * 10) / 10}</p>
       <p>${movie.release_date}</p>
     `;
     movieContainer.appendChild(movieElement);
