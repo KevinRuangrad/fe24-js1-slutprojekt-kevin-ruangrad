@@ -28,7 +28,7 @@ searchBtn.addEventListener("click", async () => {
     if (matchedPersons.length > 0) {
       matchedPersons.forEach((matchedPerson) => {
         if (!matchedPerson.profile_path) {
-          return; // Skip this person if no profile image is available
+          return; // Skippar personer utan bild
         }
 
         const personElement = document.createElement("div");
@@ -48,7 +48,7 @@ searchBtn.addEventListener("click", async () => {
           matchedPerson.known_for.slice(0, 4).map((work) => `
               <li>${(work.title ||
             work.name)} (${work.media_type.toUpperCase()})</li>
-            `).join("") // join() helps us avoid commas between each list item
+            `).join("") // join() hjälper oss att slippa kommatecken, eftersom vi använder map(). Fick hjälp av AI här
         }
           </ul>
         `;
