@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TMDB</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js"></script> 
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js"
+    ></script>
     <script src="/js/search.js" type="module"></script>
   </head>
 
@@ -16,15 +18,12 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="/html/popular.html">Popular Movies</a></li>
         <li><a href="/html/rated.html">Top Rated</a></li>
-        <form action="">
+        <form id="searchForm">
           <input type="text" id="searchInput" placeholder="Search..">
-          <button type="button" id="searchBtn">Search</button>
+          <button type="submit" id="searchBtn">Search</button>
         </form>
       </ul>
     </nav>
-    <div class="person-card-container">
-      <div class="personCard"></div>
-    </div>
-    <div class="movieCard"></div>
+    <div class="resultCard"></div>
   </body>
 </html>
